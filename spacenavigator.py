@@ -23,6 +23,10 @@ def to_int16(y1,y2):
 # tuple for 6DOF results
 SpaceNavigator = namedtuple('SpaceNavigator', ['t','x', 'y', 'z', 'roll', 'pitch', 'yaw', 'buttons'])
 
+class ButtonState(list):
+    def __int__(self):
+        return sum((b << i) for (i, b) in enumerate(reversed(self)))
+
 class DeviceSpec(object):
     """Holds the specification of a single 3Dconnexion device"""
     def __init__(self, name, hid_id, led_id, mappings, button_mapping, axis_scale=350.0):
@@ -33,7 +37,7 @@ class DeviceSpec(object):
         self.button_mapping = button_mapping
         self.axis_scale = axis_scale        
         # initialise to a vector of 0s for each state
-        button_state = [0 for i in range(len(button_mapping))]
+        button_state = ButtonState([0] * len(button_mapping))
         self.dict_state = {"buttons":button_state}
         self.tuple_state = SpaceNavigator(-1,0,0,0,0,0,0,button_state)
         # start in disconnected state
