@@ -25,7 +25,7 @@ SpaceNavigator = namedtuple('SpaceNavigator', ['t','x', 'y', 'z', 'roll', 'pitch
 
 class ButtonState(list):
     def __int__(self):
-        return sum((b << i) for (i, b) in enumerate(reversed(self)))
+        return sum((b << i) for (i, b) in enumerate(self))
 
 class DeviceSpec(object):
     """Holds the specification of a single 3Dconnexion device"""
